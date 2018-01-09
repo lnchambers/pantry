@@ -33,4 +33,10 @@ class Pantry
     end
   end
 
+  def print_shopping_list
+    shopping_list.reduce("") do |result, list|
+      result + "* #{list[0]}: #{list[1]}\n"
+    end.chomp
+  end
+
 end
