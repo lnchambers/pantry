@@ -56,4 +56,21 @@ class Pantry
     end
   end
 
+  def how_many_can_i_make
+    cookbook.reduce({}) do |result, recipe|
+      how_many = how_many_ingredients(recipe.ingredients)
+      if how_many.shift == 0
+        result
+      else
+        result.merge({recipe.name => how_many.sort.pop})
+      end
+    end
+  end
+
+  def how_many_ingredients(ingredients)
+    ingredients.map do |ingredient|
+      stock_check(ingredient[0]) / ingredient[1]
+    end
+  end
+
 end
