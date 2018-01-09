@@ -2,11 +2,12 @@ require 'pry'
 
 class Pantry
 
-  attr_reader :stock, :shopping_list
+  attr_reader :stock, :shopping_list, :cookbook
 
   def initialize
-    @stock = {}
+    @stock         = {}
     @shopping_list = {}
+    @cookbook      = []
   end
 
   def stock_check(item)
@@ -37,6 +38,39 @@ class Pantry
     shopping_list.reduce("") do |result, list|
       result + "* #{list[0]}: #{list[1]}\n"
     end.chomp
+  end
+
+  def add_to_cookbook(recipe)
+    cookbook << recipe
+  end
+
+  def what_can_i_make
+    cookbook.map do |recipe|
+      recipe.name if check_ingredients(recipe.ingredients)
+    end.compact
+  end
+
+  def check_ingredients(ingredients)
+    ingredients.all? do |ingredient|
+      stock_check(ingredient[0]) >= ingredient[1]
+    end
+  end
+
+  def how_many_can_i_make
+    cookbook.reduce({}) do |result, recipe|
+      how_many = how_many_ingredients(recipe.ingredients)
+      if how_many.shift == 0
+        result
+      else
+        result.merge({recipe.name => how_many.sort.pop})
+      end
+    end
+  end
+
+  def how_many_ingredients(ingredients)
+    ingredients.map do |ingredient|
+      stock_check(ingredient[0]) / ingredient[1]
+    end
   end
 
 end
