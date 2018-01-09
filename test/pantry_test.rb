@@ -1,4 +1,5 @@
 require './lib/pantry'
+require './lib/recipe'
 require 'minitest/autorun'
 require 'minitest/pride'
 
@@ -35,6 +36,66 @@ class PantryTest < Minitest::Test
     pantry.restock("Cheese", 20)
 
     assert_equal 30, pantry.stock_check("Cheese")
+  end
+
+  def test_recipe_can_be_added_to_shopping_list
+    recipe = Recipe.new("Cheese Pizza")
+    pantry = Pantry.new
+
+    recipe.add_ingredient("Flour", 20)
+    recipe.add_ingredient("Cheese", 20)
+    pantry.add_to_shopping_list(recipe)
+
+    assert_instance_of Hash, pantry.shopping_list
+    assert_equal 2, pantry.shopping_list.count
+    assert_equal ["Flour", "Cheese"], pantry.shopping_list.keys
+    assert_equal [20, 20], pantry.shopping_list.values
+  end
+
+  def test_more_recipes_can_be_added_to_shopping_list
+    recipe = Recipe.new("Cheese Pizza")
+    pantry = Pantry.new
+
+    recipe.add_ingredient("Flour", 20)
+    recipe.add_ingredient("Cheese", 20)
+    pantry.add_to_shopping_list(recipe)
+
+    assert_equal ({"Flour"=>20, "Cheese"=>20}), pantry.shopping_list
+
+    recipe2 = Recipe.new("Spaghetti")
+
+    recipe2.add_ingredient("Spaghetti Noodles", 10)
+    recipe2.add_ingredient("Marinara Sauce", 10)
+    recipe2.add_ingredient("Cheese", 5)
+
+    pantry.add_to_shopping_list(recipe2)
+
+    assert_equal ({"Flour"=>20, "Cheese"=>25, "Spaghetti Noodles"=>10, "Marinara Sauce"=>10}), pantry.shopping_list
+  end
+
+  def test_pantry_print_shopping_list
+    recipe = Recipe.new("Cheese Pizza")
+    pantry = Pantry.new
+
+    recipe.add_ingredient("Cheese", 20)
+    recipe.add_ingredient("Flour", 20)
+    pantry.add_to_shopping_list(recipe)
+
+    assert_equal ({"Cheese"=>20, "Flour"=>20}), pantry.shopping_list
+
+    recipe2 = Recipe.new("Spaghetti")
+
+    recipe2.add_ingredient("Spaghetti Noodles", 10)
+    recipe2.add_ingredient("Marinara Sauce", 10)
+    recipe2.add_ingredient("Cheese", 5)
+
+    pantry.add_to_shopping_list(recipe2)
+    puts pantry.print_shopping_list
+
+    assert_equal ("* Cheese: 25
+* Flour: 20
+* Spaghetti Noodles: 10
+* Marinara Sauce: 10"), pantry.print_shopping_list
   end
 
 end
