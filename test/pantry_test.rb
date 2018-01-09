@@ -66,7 +66,7 @@ class PantryTest < Minitest::Test
 
     recipe2.add_ingredient("Sphaghetti Noodles", 10)
     recipe2.add_ingredient("Marinara Sauce", 10)
-    recipe.add_ingredient("Cheese", 5)
+    recipe2.add_ingredient("Cheese", 5)
 
     pantry.add_to_shopping_list(recipe2)
 
