@@ -10,6 +10,13 @@ class PantryTest < Minitest::Test
     assert_instance_of Pantry, pantry
   end
 
-  
+  def test_pantry_is_empty_by_default
+    pantry = Pantry.new
+
+    assert_instance_of Hash, pantry.stock
+    assert_equal 0, pantry.stock.count
+  end
+
+
 
 end
