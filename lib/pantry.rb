@@ -62,7 +62,7 @@ class Pantry
       if how_many.shift == 0
         result
       else
-        result.merge({recipe.name => how_many.sort.pop})
+        result.merge({recipe.name => how_many.min})
       end
     end
   end
