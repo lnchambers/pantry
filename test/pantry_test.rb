@@ -10,4 +10,6 @@ class PantryTest < Minitest::Test
     assert_instance_of Pantry, pantry
   end
 
+  
+
 end
