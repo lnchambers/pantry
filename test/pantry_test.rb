@@ -98,4 +98,29 @@ class PantryTest < Minitest::Test
 * Marinara Sauce: 10"), pantry.print_shopping_list
   end
 
+  def test_pantry_can_add_to_cookbook
+    r1 = Recipe.new("Cheese Pizza")
+    r1.add_ingredient("Cheese", 20)
+    r1.add_ingredient("Flour", 20)
+
+    r2 = Recipe.new("Pickles")
+    r2.add_ingredient("Brine", 10)
+    r2.add_ingredient("Cucumbers", 30)
+
+    r3 = Recipe.new("Peanuts")
+    r3.add_ingredient("Raw nuts", 10)
+    r3.add_ingredient("Salt", 10)
+
+    pantry = Pantry.new
+    pantry.add_to_cookbook(r1)
+    pantry.add_to_cookbook(r2)
+    pantry.add_to_cookbook(r3)
+
+    assert_instance_of Array, pantry.cookbook
+    assert_equal 3, pantry.cookbook.count
+    assert_instance_of Recipe, pantry.cookbook.first
+    assert_equal "Cheese Pizza", pantry.cookbook.first.name
+    assert_equal ({"Raw nuts"=>10, "Salt"=>10}), pantry.cookbook.last.ingredients
+  end
+
 end
