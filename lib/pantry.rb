@@ -13,7 +13,11 @@ class Pantry
   end
 
   def restock(item, number)
-    stock[item] = number
+    if !stock[item]
+      stock[item] = number
+    else
+      stock[item] += number
+    end
   end
 
 end

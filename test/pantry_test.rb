@@ -31,6 +31,10 @@ class PantryTest < Minitest::Test
     pantry.restock("Cheese", 10)
 
     assert_equal 10, pantry.stock_check("Cheese")
+
+    pantry.restock("Cheese", 20)
+
+    assert_equal 30, pantry.stock_check("Cheese")
   end
 
 end
