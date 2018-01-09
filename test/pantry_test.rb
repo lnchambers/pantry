@@ -46,7 +46,7 @@ class PantryTest < Minitest::Test
     recipe.add_ingredient("Cheese", 1500)
     pantry.add_to_shopping_list(recipe)
 
-    assert_instace_of Hash, pantry.shopping_list
+    assert_instance_of Hash, pantry.shopping_list
     assert_equal 2, pantry.shopping_list.count
     assert_equal ["Flour", "Cheese"], pantry.shopping_list.keys
     assert_equal [500, 1500], pantry.shopping_list.values
