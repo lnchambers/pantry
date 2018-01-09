@@ -42,14 +42,35 @@ class PantryTest < Minitest::Test
     recipe = Recipe.new("Cheese Pizza")
     pantry = Pantry.new
 
-    recipe.add_ingredient("Flour", 500)
-    recipe.add_ingredient("Cheese", 1500)
+    recipe.add_ingredient("Flour", 20)
+    recipe.add_ingredient("Cheese", 20)
     pantry.add_to_shopping_list(recipe)
 
     assert_instance_of Hash, pantry.shopping_list
     assert_equal 2, pantry.shopping_list.count
     assert_equal ["Flour", "Cheese"], pantry.shopping_list.keys
-    assert_equal [500, 1500], pantry.shopping_list.values
+    assert_equal [20, 20], pantry.shopping_list.values
+  end
+
+  def test_more_recipes_can_be_added_to_shopping_list
+    recipe = Recipe.new("Cheese Pizza")
+    pantry = Pantry.new
+
+    recipe.add_ingredient("Flour", 20)
+    recipe.add_ingredient("Cheese", 20)
+    pantry.add_to_shopping_list(recipe)
+
+    assert_equal ({"Flour"=>20, "Cheese"=>20}), pantry.shopping_list
+
+    recipe2 = Recipe.new("Sphaghetti")
+
+    recipe2.add_ingredient("Sphaghetti Noodles", 10)
+    recipe2.add_ingredient("Marinara Sauce", 10)
+    recipe.add_ingredient("Cheese", 5)
+
+    pantry.add_to_shopping_list(recipe2)
+
+    assert_equal ({"Flour"=>20, "Cheese"=>25, "Sphaghetti Noodles"=>10, "Marinara Sauce"=>10}), pantry.shopping_list
   end
 
 end

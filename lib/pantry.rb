@@ -1,3 +1,5 @@
+require 'pry'
+
 class Pantry
 
   attr_reader :stock, :shopping_list
@@ -23,9 +25,12 @@ class Pantry
 
   def add_to_shopping_list(recipe)
     recipe.ingredients.select do |item, number|
-      shopping_list[item] = number
+      if shopping_list.has_key?(item)
+        shopping_list[item] += number
+      else
+        shopping_list[item] = number
+      end
     end
   end
-
-
+  
 end
